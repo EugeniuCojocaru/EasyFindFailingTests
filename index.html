@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="index.css" />
+    <title>My app</title>
+  </head>
+  <body>
+    <div class="page">
+      <h1>Give me the string!</h1>
+      <h3>Please complete the fields below:</h3>
+      <div>
+        <label for="file_input"> I only accept html files</label><br />
+        <input id="file_input" type="file" accept=".html" /><br />
+        <label for="skip"> Include skipped test as well?</label>
+        <input type="checkbox" id="skip" name="skip" value="Skip" />
+        <br />
+      </div>
+      <br />
+      <br />
+      <button id="create_string_button">Create string</button>
+      <h3>Your tests are:</h3>
+      <div class="response-container">
+        <p id="response"></p>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="index.js"></script>
+  </body>
+</html>

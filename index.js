@@ -16,17 +16,15 @@ const getTestNames = (file) => {
     if (item.includes("[x]") || (isSkipChecked && item.includes("[-]"))) {
       const b = item.split(regexForExtractingNamesOfFailedAndSkipedTests);
       const c = b[0].split(regexForExtractingNamesOfTests);
-      correctString.push(c[0]);
+      correctString.push(c[0].trim());
     }
   });
   let finalListOfFailingE2Es = "";
   correctString.forEach((item, index) => {
     if (index === 0) {
-      finalListOfFailingE2Es = finalListOfFailingE2Es.concat(item.slice(1));
+      finalListOfFailingE2Es = finalListOfFailingE2Es.concat(item);
     } else {
-      finalListOfFailingE2Es = finalListOfFailingE2Es.concat(
-        `+${item.slice(1)}`
-      );
+      finalListOfFailingE2Es = finalListOfFailingE2Es.concat(`+${item}`);
     }
   });
 

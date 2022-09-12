@@ -1,5 +1,6 @@
 export const colors = {
   appBackground: "#77878B",
+  appBackground2: "#d4d4d4",
   shadow: "rgba(0, 0, 0, 0.08)",
   white: "#FFFFFF",
 

@@ -5,10 +5,10 @@ import { colors } from "./../../common/styles/styles";
 export const NavbarContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 16px;
   background: ${colors.gradient};
-  padding-left: 16px;
-  padding-right: 16px;
+  padding: 8px 24px;
 `;
 export const ButtonsContainer = styled.div`
   display: flex;
@@ -34,4 +34,9 @@ export const NavbarButtonContainer = styled.div`
     background-color: ${colors.buttonHover};
     border-radius: 8px;
   }
+`;
+export const LogoContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  height: 70px;
 `;

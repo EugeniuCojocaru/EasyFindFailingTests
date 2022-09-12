@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { PATHS } from "../../utils/Paths";
+import { PATHS } from "../../common/utils";
 import { DashboardPage } from "../../pages/dashboard/DashboardPage";
 
 export const Router = () => (

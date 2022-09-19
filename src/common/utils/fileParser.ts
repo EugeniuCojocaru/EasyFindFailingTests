@@ -1,73 +1,82 @@
-import { ResultsMap } from "../types";
+import { FilterOption, Package, PackageDefault } from "../types";
 
-const getCorrectRegexConsideringSkipState = (skipState: boolean) => {
-  return skipState ? / \[x\]|\[-\] /g : / \[x\] /g;
-};
-
-const createResultsMap = (file: File | undefined): ResultsMap | undefined => {
+const failTestsTemplate = " [x] FAIL";
+const skipTestsTemplate = " [-] SKIPPED";
+const testPackageTemplate = "CLASS: ";
+const testEndTemplate = "<";
+const testStartTemplate = "--> ";
+export const createResultsMap = (
+  file: File | undefined
+): Map<string, Package> | undefined => {
   if (file) {
     const reader = new FileReader();
     reader.readAsText(file, "UTF-8");
     reader.onload = () => {
       const text = reader.result;
-      parseFile(text);
+      return parseFile(text);
     };
   }
   return undefined;
 };
 
-const parseFile = (text: string | ArrayBuffer | null) => {
+const parseFile = (
+  text: string | ArrayBuffer | null
+): Map<string, Package> | undefined => {
   if (text && typeof text === "string") {
-    const skipTestsRegex = / \[x\] /g;
-    const regexForExtractingNamesOfFailedAndSkipedTests = /<\/a(\\n)?( )*>/;
-    let a = text.split(">--&gt;");
-    a = a.slice(1);
-    a.forEach((item) => {
-        if (item.includes("[x]") || (isSkipChecked && item.includes("[-]"))) {
-          const b = item.split(regexForExtractingNamesOfFailedAndSkipedTests);
-          const c = b[0].split(regexForExtractingNamesOfTests);
-          correctString.push(c[0].trim());
+    let resultsMap = new Map<string, Package>();
+
+    let packages = text.split(testPackageTemplate);
+    packages = packages.slice(1);
+
+    packages.forEach((item) => {
+      const packageName = item.substring(0, item.indexOf(testEndTemplate));
+      const tests = item.split(testStartTemplate);
+
+      let packageEntry = resultsMap.get(packageName);
+      if (!packageEntry) {
+        resultsMap.set(packageName, PackageDefault);
+      }
+
+      for (let testIndex = 1; testIndex < tests.length; testIndex++) {
+        const testName = tests[testIndex].substring(
+          0,
+          tests[testIndex].indexOf(testEndTemplate)
+        );
+        packageEntry = resultsMap.get(packageName);
+        if (testName.includes(failTestsTemplate)) {
+          resultsMap.set(packageName, {
+            ...packageEntry,
+            fail: [
+              ...(packageEntry?.fail || []),
+              testName.split(failTestsTemplate)[0],
+            ],
+          });
+        } else {
+          if (testName.includes(skipTestsTemplate)) {
+            resultsMap.set(packageName, {
+              ...packageEntry,
+              skip: [
+                ...(packageEntry?.skip || []),
+                testName.split(skipTestsTemplate)[0],
+              ],
+            });
+          } else {
+            resultsMap.set(packageName, {
+              ...packageEntry,
+              success: [...(packageEntry?.success || []), testName.trim()],
+            });
+          }
         }
-      });
+      }
+    });
+
+    return resultsMap;
   }
-};
-const getTestNames = (file) => {
-
-  const correctString = [];
-  let a = file.split(">--&gt;");
-  a = a.slice(1);
-  a.forEach((item) => {
-    if (item.includes("[x]") || (isSkipChecked && item.includes("[-]"))) {
-      const b = item.split(regexForExtractingNamesOfFailedAndSkipedTests);
-      const c = b[0].split(regexForExtractingNamesOfTests);
-      correctString.push(c[0].trim());
-    }
-  });
-  let finalListOfFailingE2Es = "";
-  correctString.forEach((item, index) => {
-    if (index === 0) {
-      finalListOfFailingE2Es = finalListOfFailingE2Es.concat(item);
-    } else {
-      finalListOfFailingE2Es = finalListOfFailingE2Es.concat(`+${item}`);
-    }
-  });
-
-  document.getElementById("response").innerText = finalListOfFailingE2Es;
+  return undefined;
 };
 
-const createString = () => {
-  const selectedFile = document.getElementById("file_input")?.files[0];
-  if (!selectedFile) alert("aaaa");
-  else {
-    let reader = new FileReader();
-    reader.readAsText(selectedFile, "UTF-8");
-    reader.onload = () => {
-      let text = reader.result;
-      getTestNames(text.trim());
-    };
-  }
-};
-const button = document.getElementById("create_string_button");
-button.addEventListener("click", createString);
+export const getStringWithFilters = (resultsMap: Map<string, Package> | undefined, filters: FilterOption): string =>{
+  const result = "";
 
-export {};
+  return result;
+}

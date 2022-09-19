@@ -1,5 +1,5 @@
 import { Switch, Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout } from "../../components/Layout";
 import {
   OptionContainer,
@@ -11,24 +11,36 @@ import {
 } from "./GenerateStringPage.styles";
 import UploadIcon from "@mui/icons-material/Upload";
 import { DragAndDropInput } from "../../components/DragAndDropInput";
+import {
+  createResultsMap,
+  getStringWithFilters,
+} from "../../common/utils/fileParser";
+import { FilterOption, FilterOptionDefault, Package } from "../../common/types";
 
-interface PageState {
-  isOnlyPacks: boolean;
-  isFailedTests: boolean;
-  isSkippedTests: boolean;
-}
-const defaultState: PageState = {
-  isFailedTests: true,
-  isOnlyPacks: false,
-  isSkippedTests: false,
-};
 export const GenerateStringPage = () => {
-  const [state, setState] = useState<PageState>(defaultState);
-  const { isFailedTests, isOnlyPacks, isSkippedTests } = state;
+  const [state, setState] = useState<FilterOption>(FilterOptionDefault);
+  const {
+    isFailed: isFailedTests,
+    isOnlyPacks,
+    isSkipped: isSkippedTests,
+  } = state;
   const [file, setFile] = useState<File | undefined>();
+  const [resultMap, setResultMap] = useState<Map<string, Package> | undefined>(
+    undefined
+  );
+  const [resultString, setResultString] = useState<string>("");
   const updateState = (e: any) => {
     setState({ ...state, [e.target.name]: e.target.checked });
   };
+
+  useEffect(() => {
+    setResultMap(createResultsMap(file));
+  }, [file]);
+
+  useEffect(() => {
+    setResultString(getStringWithFilters(resultMap, state));
+  }, [state]);
+
   return (
     <Layout>
       <PageContainer>
@@ -77,7 +89,7 @@ export const GenerateStringPage = () => {
 
           <ResultContainer>
             <h3>Result</h3>
-            <ResultTextContainer />
+            <ResultTextContainer>{resultString}</ResultTextContainer>
           </ResultContainer>
         </Row>
       </PageContainer>

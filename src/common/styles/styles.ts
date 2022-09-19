@@ -1,20 +1,11 @@
 export const colors = {
-  appBackground: "#77878B",
-  appBackground2: "#d4d4d4",
+  appBackground: "#FFFFFF",
+  navigator: "#0099ff",
   shadow: "rgba(0, 0, 0, 0.08)",
   white: "#FFFFFF",
-
+  black: "#000",
   success: "#31CB00",
   failure: "#FF1B1C",
-
-  buttonPrimary: "#B7D5D4",
-  buttonHover: "#488286",
-  text: "rgb(123, 128, 154)",
-  gradient: "linear-gradient(195deg, #305252 , #373E40)",
-  gradient_reverse:
-    "linear-gradient(195deg, rgb(206, 231, 230), rgb(191, 192, 192))",
-  green: "#648767",
-  onyx: "#373E40",
 };
 
 export const classes = {
@@ -24,7 +15,7 @@ export const classes = {
         "linear-gradient(195deg, rgb(66, 66, 74), rgb(25, 25, 25))",
     },
     secondary: {
-      color: colors.buttonPrimary,
+      color: colors.black,
       border: "2px solid",
     },
     sideMenu: {

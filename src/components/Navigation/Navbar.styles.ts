@@ -7,7 +7,7 @@ export const NavbarContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  background: ${colors.gradient};
+  background: ${colors.appBackground};
   padding: 8px 24px;
 `;
 export const ButtonsContainer = styled.div`
@@ -18,7 +18,7 @@ export const ButtonsContainer = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
-  color: ${colors.buttonPrimary};
+  color: ${colors.black};
 
   p {
     text-decoration: none;
@@ -31,7 +31,7 @@ export const NavbarButtonContainer = styled.div`
   padding-left: 8px;
   padding-right: 8px;
   &:hover {
-    background-color: ${colors.buttonHover};
+    background-color: ${colors.navigator};
     border-radius: 8px;
   }
 `;

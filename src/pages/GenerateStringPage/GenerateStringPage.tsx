@@ -1,35 +1,85 @@
 import { Switch, Button } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { Layout } from "../../components/Layout";
 import {
   OptionContainer,
   PageContainer,
   OptionsContainer,
   ResultContainer,
+  Row,
+  ResultTextContainer,
 } from "./GenerateStringPage.styles";
 import UploadIcon from "@mui/icons-material/Upload";
+import { DragAndDropInput } from "../../components/DragAndDropInput";
+
+interface PageState {
+  isOnlyPacks: boolean;
+  isFailedTests: boolean;
+  isSkippedTests: boolean;
+}
+const defaultState: PageState = {
+  isFailedTests: true,
+  isOnlyPacks: false,
+  isSkippedTests: false,
+};
 export const GenerateStringPage = () => {
+  const [state, setState] = useState<PageState>(defaultState);
+  const { isFailedTests, isOnlyPacks, isSkippedTests } = state;
+  const [file, setFile] = useState<File | undefined>();
+  const updateState = (e: any) => {
+    setState({ ...state, [e.target.name]: e.target.checked });
+  };
   return (
     <Layout>
       <PageContainer>
         <h2>Generate string with failed tests names</h2>
-        <OptionsContainer>
-          <h3>Options</h3>
-          <OptionContainer>
-            <Switch />
-            <h4>Failed tests</h4>
-          </OptionContainer>
-          <OptionContainer>
-            <Switch />
-            <h4>Skipped tests</h4>
-          </OptionContainer>
-          <h3>Upload the index.html</h3>
-          <Button startIcon={<UploadIcon />} component="label">
-            Upload file
-            <input hidden accept=".html" type="file" />
-          </Button>
-        </OptionsContainer>
-        <ResultContainer></ResultContainer>
+        <Row>
+          <OptionsContainer>
+            <h3>Filter options</h3>
+            <OptionContainer>
+              <Switch
+                checked={isOnlyPacks}
+                name="isOnlyPacks"
+                onChange={updateState}
+              />
+              <h4>Only packs</h4>
+            </OptionContainer>
+            <OptionContainer>
+              <Switch
+                checked={isFailedTests}
+                name="isFailedTests"
+                onChange={updateState}
+              />
+              <h4>Failed tests</h4>
+            </OptionContainer>
+            <OptionContainer>
+              <Switch
+                checked={isSkippedTests}
+                name="isSkippedTests"
+                onChange={updateState}
+              />
+              <h4>Skipped tests</h4>
+            </OptionContainer>
+            <h3>Upload the index.html</h3>
+
+            <DragAndDropInput handleDragAndDrop={setFile}>
+              <UploadIcon />
+              <span>
+                <Button variant="text" component="label">
+                  Click here
+                  <input hidden accept=".html" type="file" />
+                </Button>
+                or drag and drop
+              </span>
+              accepts only .html files
+            </DragAndDropInput>
+          </OptionsContainer>
+
+          <ResultContainer>
+            <h3>Result</h3>
+            <ResultTextContainer />
+          </ResultContainer>
+        </Row>
       </PageContainer>
     </Layout>
   );

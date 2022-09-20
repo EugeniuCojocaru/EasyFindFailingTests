@@ -5,15 +5,23 @@ const skipTestsTemplate = " [-] SKIPPED";
 const testPackageTemplate = "CLASS: ";
 const testEndTemplate = "<";
 const testStartTemplate = "--> ";
-export const createResultsMap = (
-  file: File | undefined
-): Map<string, Package> | undefined => {
+export const createResultsMap = async (
+  file: File | undefined, setResult: (a:any)=> void
+): Promise<Map<string, Package> | undefined> => {
+  console.log("hereeeee");
   if (file) {
+    console.log("hereeeee2");
     const reader = new FileReader();
     reader.readAsText(file, "UTF-8");
     reader.onload = () => {
+      console.log("hereeeee3");
+
       const text = reader.result;
-      return parseFile(text);
+      setResult(parseFile(text));
+      return new Promise((resolve, reject) => {
+        resolve(parseFile(text));
+        reject(undefined);
+      });
     };
   }
   return undefined;
@@ -22,7 +30,11 @@ export const createResultsMap = (
 const parseFile = (
   text: string | ArrayBuffer | null
 ): Map<string, Package> | undefined => {
+  console.log("hereeeee4");
+
   if (text && typeof text === "string") {
+    console.log("here5");
+
     let resultsMap = new Map<string, Package>();
 
     let packages = text.split(testPackageTemplate);
@@ -69,14 +81,39 @@ const parseFile = (
         }
       }
     });
-
+    console.log("here6");
+    console.log({ resultsMap });
     return resultsMap;
   }
   return undefined;
 };
 
-export const getStringWithFilters = (resultsMap: Map<string, Package> | undefined, filters: FilterOption): string =>{
-  const result = "";
+const createStringOutOfArray = (
+  array: Array<string>,
+  defaultValue: string
+): string =>
+  array.reduce((fullString, value) => `${fullString}+${value}`, defaultValue);
 
+export const getStringWithFilters = (
+  resultsMap: Map<string, Package> | undefined,
+  filters: FilterOption
+): string => {
+  let result = "";
+  if (resultsMap) {
+    resultsMap.forEach((value, key) => {
+      if (filters.isOnlyPacks) {
+        if (
+          (filters.isFailed && value.fail && value.fail.length > 0) ||
+          (filters.isSkipped && value.skip && value.skip.length > 0)
+        )
+          result = `${result}+${key}`;
+      } else {
+        if (filters.isFailed && value.fail && value.fail.length > 0)
+          result = createStringOutOfArray(value.fail, result);
+        if (filters.isSkipped && value.skip && value.skip.length > 0)
+          result = createStringOutOfArray(value.skip, result);
+      }
+    });
+  }
   return result;
-}
+};

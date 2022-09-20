@@ -1,4 +1,4 @@
-import { Switch, Button } from "@mui/material";
+import { Switch } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { Layout } from "../../components/Layout";
 import {
@@ -9,7 +9,7 @@ import {
   Row,
   ResultTextContainer,
 } from "./GenerateStringPage.styles";
-import UploadIcon from "@mui/icons-material/Upload";
+
 import { DragAndDropInput } from "../../components/DragAndDropInput";
 import {
   createResultsMap,
@@ -19,11 +19,7 @@ import { FilterOption, FilterOptionDefault, Package } from "../../common/types";
 
 export const GenerateStringPage = () => {
   const [state, setState] = useState<FilterOption>(FilterOptionDefault);
-  const {
-    isFailed: isFailedTests,
-    isOnlyPacks,
-    isSkipped: isSkippedTests,
-  } = state;
+  const { isFailed, isOnlyPacks, isSkipped } = state;
   const [file, setFile] = useState<File | undefined>();
   const [resultMap, setResultMap] = useState<Map<string, Package> | undefined>(
     undefined
@@ -34,12 +30,28 @@ export const GenerateStringPage = () => {
   };
 
   useEffect(() => {
-    setResultMap(createResultsMap(file));
-  }, [file]);
+    console.log("dada");
 
+    const fetchData = async () => {
+      console.log("dada2");
+      createResultsMap(file, setResultMap)
+        .then((value) => {
+          setResultMap(value);
+        })
+        .catch((e) => {
+          setResultMap(e);
+        });
+    };
+    fetchData();
+    console.log("dada3");
+  }, [file, setFile]);
   useEffect(() => {
     setResultString(getStringWithFilters(resultMap, state));
-  }, [state]);
+  }, [state, resultMap]);
+
+  const handleFile = (file: File | undefined) => {
+    setFile(file);
+  };
 
   return (
     <Layout>
@@ -58,33 +70,23 @@ export const GenerateStringPage = () => {
             </OptionContainer>
             <OptionContainer>
               <Switch
-                checked={isFailedTests}
-                name="isFailedTests"
+                checked={isFailed}
+                name="isFailed"
                 onChange={updateState}
               />
               <h4>Failed tests</h4>
             </OptionContainer>
             <OptionContainer>
               <Switch
-                checked={isSkippedTests}
-                name="isSkippedTests"
+                checked={isSkipped}
+                name="isSkipped"
                 onChange={updateState}
               />
               <h4>Skipped tests</h4>
             </OptionContainer>
             <h3>Upload the index.html</h3>
 
-            <DragAndDropInput handleDragAndDrop={setFile}>
-              <UploadIcon />
-              <span>
-                <Button variant="text" component="label">
-                  Click here
-                  <input hidden accept=".html" type="file" />
-                </Button>
-                or drag and drop
-              </span>
-              accepts only .html files
-            </DragAndDropInput>
+            <DragAndDropInput handleDragAndDrop={handleFile} />
           </OptionsContainer>
 
           <ResultContainer>

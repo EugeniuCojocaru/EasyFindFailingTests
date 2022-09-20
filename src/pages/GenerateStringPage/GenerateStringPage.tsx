@@ -30,20 +30,7 @@ export const GenerateStringPage = () => {
   };
 
   useEffect(() => {
-    console.log("dada");
-
-    const fetchData = async () => {
-      console.log("dada2");
-      createResultsMap(file, setResultMap)
-        .then((value) => {
-          setResultMap(value);
-        })
-        .catch((e) => {
-          setResultMap(e);
-        });
-    };
-    fetchData();
-    console.log("dada3");
+    createResultsMap(file, setResultMap);
   }, [file, setFile]);
   useEffect(() => {
     setResultString(getStringWithFilters(resultMap, state));

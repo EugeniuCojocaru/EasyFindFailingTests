@@ -6,35 +6,24 @@ const testPackageTemplate = "CLASS: ";
 const testEndTemplate = "<";
 const testStartTemplate = "--> ";
 export const createResultsMap = async (
-  file: File | undefined, setResult: (a:any)=> void
-): Promise<Map<string, Package> | undefined> => {
-  console.log("hereeeee");
+  file: File | undefined,
+  setResult: (map: Map<string, Package> | undefined) => void
+) => {
   if (file) {
-    console.log("hereeeee2");
     const reader = new FileReader();
     reader.readAsText(file, "UTF-8");
     reader.onload = () => {
-      console.log("hereeeee3");
-
       const text = reader.result;
       setResult(parseFile(text));
-      return new Promise((resolve, reject) => {
-        resolve(parseFile(text));
-        reject(undefined);
-      });
     };
   }
-  return undefined;
+  setResult(undefined);
 };
 
 const parseFile = (
   text: string | ArrayBuffer | null
 ): Map<string, Package> | undefined => {
-  console.log("hereeeee4");
-
   if (text && typeof text === "string") {
-    console.log("here5");
-
     let resultsMap = new Map<string, Package>();
 
     let packages = text.split(testPackageTemplate);
@@ -81,8 +70,6 @@ const parseFile = (
         }
       }
     });
-    console.log("here6");
-    console.log({ resultsMap });
     return resultsMap;
   }
   return undefined;
@@ -115,5 +102,5 @@ export const getStringWithFilters = (
       }
     });
   }
-  return result;
+  return result.substring(1, result.length);
 };

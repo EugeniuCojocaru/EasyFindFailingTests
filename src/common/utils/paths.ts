@@ -1,5 +1,6 @@
+const url = "/EasyFindFailingTests";
 export const PATHS = {
-  default: "/*",
-  dashboard: "/dashboard",
-  stringForTests: "/string-for-tests",
+  default: `${url}/*`,
+  dashboard: `${url}/dashboard`,
+  stringForTests: `${url}/string-for-tests`,
 };

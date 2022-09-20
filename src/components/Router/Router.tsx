@@ -7,15 +7,9 @@ import { GenerateStringPage } from "../../pages/GenerateStringPage";
 export const Router = () => (
   <BrowserRouter>
     <Routes>
-      <Route path={PATHS.default} element={<DashboardPage />} />
+      <Route path={PATHS.default} element={<GenerateStringPage />} />
       <Route path={PATHS.dashboard} element={<DashboardPage />} />
       <Route path={PATHS.stringForTests} element={<GenerateStringPage />} />
-      {/*
-      <Route path="/syllabus/add" element={<AddSyllabusPage />} />
-      <Route path="/institution" element={<InstitutionPage />} />
-      <Route path="/subjects" element={<SubjectPage />} />
-      <Route path="/teachers" element={<TeacherPage />} />
-      <Route path="/audit" element={<AuditPage />} /> */}
     </Routes>
   </BrowserRouter>
 );

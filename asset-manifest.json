@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/EasyFindFailingTests/static/css/main.bfda055a.css",
+    "main.js": "/EasyFindFailingTests/static/js/main.e0d213a4.js",
+    "static/js/787.28cb0dcd.chunk.js": "/EasyFindFailingTests/static/js/787.28cb0dcd.chunk.js",
+    "static/media/logo.png": "/EasyFindFailingTests/static/media/logo.867970f1c538003f486e.png",
+    "index.html": "/EasyFindFailingTests/index.html",
+    "main.bfda055a.css.map": "/EasyFindFailingTests/static/css/main.bfda055a.css.map",
+    "main.e0d213a4.js.map": "/EasyFindFailingTests/static/js/main.e0d213a4.js.map",
+    "787.28cb0dcd.chunk.js.map": "/EasyFindFailingTests/static/js/787.28cb0dcd.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bfda055a.css",
+    "static/js/main.e0d213a4.js"
+  ]
+}

@@ -10,6 +10,7 @@ export const Router = () => (
       <Route path={PATHS.default} element={<GenerateStringPage />} />
       <Route path={PATHS.dashboard} element={<DashboardPage />} />
       <Route path={PATHS.stringForTests} element={<GenerateStringPage />} />
+      <Route path={PATHS.other} element={<DashboardPage />} />
     </Routes>
   </BrowserRouter>
 );

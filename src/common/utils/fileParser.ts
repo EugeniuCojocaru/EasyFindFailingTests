@@ -91,7 +91,8 @@ export const getStringWithFilters = (
       if (filters.isOnlyPacks) {
         if (
           (filters.isFailed && value.fail && value.fail.length > 0) ||
-          (filters.isSkipped && value.skip && value.skip.length > 0)
+          (filters.isSkipped && value.skip && value.skip.length > 0) ||
+          (filters.isValid && value.success && value.success.length > 0)
         )
           result = `${result}+${key}`;
       } else {
@@ -99,6 +100,8 @@ export const getStringWithFilters = (
           result = createStringOutOfArray(value.fail, result);
         if (filters.isSkipped && value.skip && value.skip.length > 0)
           result = createStringOutOfArray(value.skip, result);
+        if (filters.isValid && value.success && value.success.length > 0)
+          result = createStringOutOfArray(value.success, result);
       }
     });
   }

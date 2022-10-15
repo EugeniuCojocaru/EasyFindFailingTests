@@ -22,6 +22,12 @@ export const Navbar = () => {
       </LogoContainer>
       <ButtonsContainer>
         <NavbarButton
+          label="COMPARE TESTS"
+          handleClick={() => handleNavigateTo(PATHS.compareTests)}
+        >
+          <DashboardIcon />
+        </NavbarButton>
+        <NavbarButton
           label="TEST NAMES"
           handleClick={() => handleNavigateTo(PATHS.stringForTests)}
         >

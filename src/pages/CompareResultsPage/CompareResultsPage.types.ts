@@ -9,7 +9,13 @@ export enum OS {
   Android,
   IOS,
 }
-
+export enum Result {
+  Success,
+  Fail,
+  Skyp,
+  NaN,
+}
+export type ReportMapType = Map<string, Map<string, Array<Result>>>;
 export interface ResultShowType {
   file: Map<string, Package> | undefined;
   label: string;
@@ -21,4 +27,3 @@ export const ResultTypeDefault: ResultType = {
   label: "",
   os: OS.Android,
 };
-

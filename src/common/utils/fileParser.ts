@@ -1,10 +1,15 @@
 import { FilterOption, Package, PackageDefault } from "../types";
+import {
+  ResultShowType,
+  ResultType,
+} from "../../pages/CompareResultsPage/CompareResultsPage.types";
 
 const failTestsTemplate = " [x] FAIL";
 const skipTestsTemplate = " [-] SKIPPED";
 const testPackageTemplate = "CLASS: ";
 const testEndTemplate = "<";
 const testStartTemplate = "--> ";
+
 export const createResultsMap = async (
   file: File | undefined,
   setResult: (map: Map<string, Package> | undefined) => void
@@ -15,6 +20,21 @@ export const createResultsMap = async (
     reader.onload = () => {
       const text = reader.result;
       setResult(parseFile(text));
+    };
+  }
+  setResult(undefined);
+};
+
+export const createCompareResultsMap = async (
+  report: ResultType,
+  setResult: (map: ResultShowType | undefined) => void
+) => {
+  if (report.file) {
+    const reader = new FileReader();
+    reader.readAsText(report.file, "UTF-8");
+    reader.onload = () => {
+      const text = reader.result;
+      setResult({ ...report, file: parseFile(text) });
     };
   }
   setResult(undefined);

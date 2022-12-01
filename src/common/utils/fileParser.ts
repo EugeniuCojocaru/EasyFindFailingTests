@@ -1,8 +1,10 @@
 import { FilterOption, Package, PackageDefault } from "../types";
 import {
+  Result,
   ResultShowType,
   ResultType,
 } from "../../pages/CompareResultsPage/CompareResultsPage.types";
+import { fileURLToPath } from "url";
 
 const failTestsTemplate = " [x] FAIL";
 const skipTestsTemplate = " [-] SKIPPED";
@@ -34,7 +36,7 @@ export const createCompareResultsMap = async (
     reader.readAsText(report.file, "UTF-8");
     reader.onload = () => {
       const text = reader.result;
-      setResult({ ...report, file: parseFile(text) });
+      setResult({ ...report, resultMap: parseFile(text) });
     };
   }
   setResult(undefined);
@@ -126,4 +128,71 @@ export const getStringWithFilters = (
     });
   }
   return result.substring(1, result.length);
+};
+
+export const createShow = (array: Array<ResultShowType | undefined>): Map<string, Map<string, Array<Result>>> => {
+  const a = new Map<string, Map<string, Array<Result>>>();
+  array.forEach((item, index) => {
+    if (item) {
+      const { resultMap } = item;
+      if (resultMap) {
+        resultMap.forEach((value, key) => {
+          const pack = a.get(key);
+          const { success, fail, skip } = value;
+          if (pack) {
+            success?.forEach((test) => {
+              const packTest = pack.get(test);
+              if (packTest) {
+                packTest[index] = Result.Success;
+              } else {
+                const arr = new Array<Result>();
+                arr[index] = Result.Success;
+                pack.set(test, arr);
+              }
+            });
+            fail?.forEach((test) => {
+              const packTest = pack.get(test);
+              if (packTest) {
+                packTest[index] = Result.Fail;
+              } else {
+                const arr = new Array<Result>();
+                arr[index] = Result.Fail;
+                pack.set(test, arr);
+              }
+            });
+            skip?.forEach((test) => {
+              const packTest = pack.get(test);
+              if (packTest) {
+                packTest[index] = Result.Skip;
+              } else {
+                const arr = new Array<Result>();
+                arr[index] = Result.Skip;
+                pack.set(test, arr);
+              }
+            });
+          } else {
+            const pack2 = new Map<string, Array<Result>>();
+            success?.forEach((test) => {
+              const arr = new Array<Result>();
+              arr[index] = Result.Success;
+              pack2.set(test, arr);
+            });
+            fail?.forEach((test) => {
+              const arr = new Array<Result>();
+              arr[index] = Result.Fail;
+              pack2.set(test, arr);
+            });
+            skip?.forEach((test) => {
+              const arr = new Array<Result>();
+              arr[index] = Result.Skip;
+              pack2.set(test, arr);
+            });
+
+            a.set(key, pack2);
+          }
+        });
+      }
+    }
+  });
+  return a;
 };

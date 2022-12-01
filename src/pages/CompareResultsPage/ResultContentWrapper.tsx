@@ -1,17 +1,18 @@
-import { create } from "domain";
 import React, { useEffect, useState } from "react";
-import { Package } from "../../common/types";
+
 import {
   createCompareResultsMap,
   createResultsMap,
+  createShow,
 } from "../../common/utils/fileParser";
-import { ResultShowType, ResultType } from "./CompareResultsPage.types";
-
-export const ResultContentWrapper: React.FC<Array<ResultType>> = (
-  array: Array<ResultType>
-) => {
+import { Result, ResultShowType, ResultType } from "./CompareResultsPage.types";
+export interface Props {
+  array: Array<ResultType>;
+}
+export const ResultContentWrapper: React.FC<Props> = ({ array }) => {
   const [state, setState] = useState<Array<ResultShowType | undefined>>([]);
-
+  const [result, setResult] =
+    useState<Map<string, Map<string, Array<Result>>>>();
   const updateState = (value: ResultShowType | undefined) => {
     setState([...state, value]);
   };
@@ -23,5 +24,8 @@ export const ResultContentWrapper: React.FC<Array<ResultType>> = (
     });
   }, [array]);
 
+  useEffect(() =>{
+    setResult(createShow(state));
+  },[state])
   return <div>ResultContentWrapper</div>;
 };

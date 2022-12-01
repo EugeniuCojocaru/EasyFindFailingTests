@@ -17,6 +17,7 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { ResultType, ResultTypeDefault } from "./CompareResultsPage.types";
 import { colors } from "../../common/styles/styles";
 import { Layout } from "../../components/Layout";
+import { ResultContentWrapper } from "./ResultContentWrapper";
 
 export const CompareResultsPage = () => {
   const [state, setState] = useState<Array<ResultType>>([]);
@@ -65,6 +66,8 @@ export const CompareResultsPage = () => {
             Add
           </Button>
         </InputArea>
+        <ResultContentWrapper array={state}/>
+        
         <ColumnResultsContainer></ColumnResultsContainer>
       </PageContainer>
     </Layout>

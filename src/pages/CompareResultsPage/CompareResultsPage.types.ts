@@ -12,12 +12,11 @@ export enum OS {
 export enum Result {
   Success,
   Fail,
-  Skyp,
+  Skip,
   NaN,
 }
-export type ReportMapType = Map<string, Map<string, Array<Result>>>;
 export interface ResultShowType {
-  file: Map<string, Package> | undefined;
+  resultMap: Map<string, Package> | undefined;
   label: string;
   os: OS | boolean;
 }

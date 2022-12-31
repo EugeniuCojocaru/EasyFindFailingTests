@@ -137,8 +137,8 @@ export const createShow = (array: Array<ResultShowType | undefined>): Map<string
       const { resultMap } = item;
       if (resultMap) {
         resultMap.forEach((value, key) => {
-          const pack = a.get(key);
           const { success, fail, skip } = value;
+          const pack = a.get(key);
           if (pack) {
             success?.forEach((test) => {
               const packTest = pack.get(test);
@@ -196,3 +196,6 @@ export const createShow = (array: Array<ResultShowType | undefined>): Map<string
   });
   return a;
 };
+
+
+

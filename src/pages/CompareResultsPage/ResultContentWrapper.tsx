@@ -5,6 +5,7 @@ import {
   createResultsMap,
   createShow,
 } from "../../common/utils/fileParser";
+import { sortState } from "../../common/utils/mapSort";
 import { Result, ResultShowType, ResultType } from "./CompareResultsPage.types";
 export interface Props {
   array: Array<ResultType>;
@@ -24,8 +25,9 @@ export const ResultContentWrapper: React.FC<Props> = ({ array }) => {
     });
   }, [array]);
 
-  useEffect(() =>{
-    setResult(createShow(state));
-  },[state])
+  useEffect(() => {
+    setResult(sortState(createShow(state)));    
+  }, [state]);
+  
   return <div>ResultContentWrapper</div>;
 };

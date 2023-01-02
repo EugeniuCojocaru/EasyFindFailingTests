@@ -6,7 +6,10 @@ import {
   createShow,
 } from "../../common/utils/fileParser";
 import { sortState } from "../../common/utils/mapSort";
+import { Header } from "../../components/CompareResults";
 import { Result, ResultShowType, ResultType } from "./CompareResultsPage.types";
+import { ResultContent } from "./ResultContent";
+import { ResultsContainer } from "./ResultContentWrapper.styles";
 export interface Props {
   array: Array<ResultType>;
 }
@@ -26,8 +29,21 @@ export const ResultContentWrapper: React.FC<Props> = ({ array }) => {
   }, [array]);
 
   useEffect(() => {
-    setResult(sortState(createShow(state)));    
+    setResult(sortState(createShow(state)));
   }, [state]);
-  
-  return <div>ResultContentWrapper</div>;
+
+  const getInfoForHeader = () => {
+    console.log("Getting info");
+    const infoArray = array.map(({ os, label }) => ({ os, label }));
+    console.log({ infoArray, array });
+    return infoArray;
+  };
+  return (
+    <ResultsContainer>
+       
+        <Header info={getInfoForHeader()} />
+      ResultContentWrapper
+      <ResultContent resultMap={result || new Map()} />
+    </ResultsContainer>
+  );
 };

@@ -24,5 +24,5 @@ export interface ResultShowType {
 export const ResultTypeDefault: ResultType = {
   file: undefined,
   label: "",
-  os: OS.Android,
+  os: OS.IOS,
 };

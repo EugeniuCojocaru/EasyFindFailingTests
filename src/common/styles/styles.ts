@@ -8,6 +8,11 @@ export const colors = {
   failure: "#FF1B1C",
 };
 
+export const gradients = {
+  apple: "linear-gradient(90deg, rgba(174,174,178) 0%, rgba(99,99,102) 100%);" ,
+  android: "linear-gradient(90deg, #2EB62C 0%, #57C84D 100%);" 
+}
+
 export const classes = {
   button: {
     primary: {

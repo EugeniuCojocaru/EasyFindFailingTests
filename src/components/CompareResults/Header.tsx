@@ -10,10 +10,11 @@ type HeaderProps = {
 };
 
 export const Header = ({ info }: HeaderProps) => {
+  console.log({info});
   return (
     <HeaderContainer>
-      {info.forEach(({ os, label }) => (
-        <HeaderItem os={os as OS}>{label}</HeaderItem>
+      {info.map(({ os, label }, index) => (
+        <HeaderItem os={os as OS} key={`${os}_${label}_${index}`}>{label}</HeaderItem>
       ))}
     </HeaderContainer>
   );

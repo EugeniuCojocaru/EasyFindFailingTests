@@ -1,30 +1,63 @@
 import React, { useState } from "react";
+import {
+  ColumnContainer,
+  RowContainer,
+} from "../../components/BasicLayoutComponents";
 import { Result, ResultShowType } from "./CompareResultsPage.types";
-import { Container } from "./ResultContent.styles";
+import {
+  Container,
+  PackContainer,
+  PackWrapperContainer,
+  TestResultContainer,
+} from "./ResultContent.styles";
 type ResultContentProps = {
   resultMap: Map<string, Map<string, Array<Result>>>;
 };
 export const ResultContent: React.FC<ResultContentProps> = ({ resultMap }) => {
-  console.log({resultMap})
+  console.log({ resultMap });
   const array = [...resultMap];
+
+  const getLabelForTestResut = (value: Result): string => {
+    switch (value) {
+      case Result.Success:
+        return "Success";
+      case Result.Fail:
+        return "Failure";
+      case Result.Skip:
+        return "Skipped";
+      default:
+        return "#FF0";
+    }
+  };
   return (
     <Container>
       {array.map((value, key) => {
         const array2 = [...value[1]];
         return (
-          <div style={{height: "50px", border: "1px solid #000"}} key={`${key}-pack`}>
-            {value[0]}
+          <PackWrapperContainer>
+            <PackContainer key={`${key}-pack`} isPack={true}>
+              {value[0]}
+            </PackContainer>
             {array2.map((value, key) => {
               return (
-                <div style={{height: "50px", border: "1px solid #17af3d"}} key={`${key}-test`}>
-                  {value[0]}
-                  {value[1].map((value) => (
-                    <span style={{height: "50px", border: "1px solid #e0e415"}} key={`${key}-${value}-result`}>{value}</span>
-                  ))}
-                </div>
+                <>
+                  <PackContainer isPack={false} key={`${key}-test`}>
+                    {value[0]}
+                  </PackContainer>
+                  <RowContainer>
+                    {value[1].map((value) => (
+                      <TestResultContainer
+                        key={`${key}-${value}-result`}
+                        value={value}
+                      >
+                        {getLabelForTestResut(value)}
+                      </TestResultContainer>
+                    ))}
+                  </RowContainer>
+                </>
               );
             })}
-          </div>
+          </PackWrapperContainer>
         );
       })}
     </Container>

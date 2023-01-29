@@ -7,6 +7,7 @@ export const Container = styled.div`
   flex-direction: column;
   height: 500px;
   color: ${colors.testComparison.text};
+  height: auto;
 `;
 export const PackWrapperContainer = styled.div`
   display: flex;

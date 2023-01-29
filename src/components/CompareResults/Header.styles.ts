@@ -6,8 +6,12 @@ export const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
-  height: 100px;
+  height: 60px;  
+  width:inherit;
+  position: sticky;
+  bottom: 0;  
 `;
+
 export const HeaderItem = styled.div<{ os: OS }>`
   display: flex;
   justify-content: center;
@@ -15,9 +19,8 @@ export const HeaderItem = styled.div<{ os: OS }>`
   height: 90%;
   width: 25%;
 
-  border-radius: 16px;
+  border-radius: 8px;
   background-image: ${({ os }) =>
     os === OS.Android ? gradients.android : gradients.apple};
   color: ${colors.white};
 `;
-//

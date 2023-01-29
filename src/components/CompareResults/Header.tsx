@@ -13,7 +13,9 @@ export const Header = ({ info }: HeaderProps) => {
   return (
     <HeaderContainer>
       {info.map(({ os, label }, index) => (
-        <HeaderItem os={os as OS} key={`${os}_${label}_${index}`}>{label}</HeaderItem>
+        <HeaderItem os={os as OS} key={`${os}_${label}_${index}`}>
+          {label}
+        </HeaderItem>
       ))}
     </HeaderContainer>
   );

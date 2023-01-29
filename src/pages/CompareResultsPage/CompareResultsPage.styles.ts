@@ -9,7 +9,7 @@ export const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 2% 15%;
+  padding: 2% 15% 0% 15%;
   font-family: Comfortaa;
   color: ${colors.black};
 `;

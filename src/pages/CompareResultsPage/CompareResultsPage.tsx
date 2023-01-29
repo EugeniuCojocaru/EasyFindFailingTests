@@ -8,11 +8,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 
-import {
-  ColumnResultsContainer,
-  InputArea,
-  PageContainer,
-} from "./CompareResultsPage.styles";
+import { InputArea, PageContainer } from "./CompareResultsPage.styles";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { OS, ResultType, ResultTypeDefault } from "./CompareResultsPage.types";
 import { colors } from "../../common/styles/styles";
@@ -43,7 +39,6 @@ export const CompareResultsPage = () => {
               defaultChecked
               value={os}
               onChange={(e) => {
-                console.log("Checked: ", e.target.checked, e.target.checked ? OS.IOS : OS.Android);
                 setInputState({
                   ...inputState,
                   os: e.target.checked ? OS.IOS : OS.Android,
@@ -71,8 +66,6 @@ export const CompareResultsPage = () => {
           </Button>
         </InputArea>
         <ResultContentWrapper array={state} />
-
-        <ColumnResultsContainer></ColumnResultsContainer>
       </PageContainer>
     </Layout>
   );

@@ -12,6 +12,11 @@ export const PackWrapperContainer = styled.div`
   flex-direction: column;
   gap: 4px;
 `;
+export const TestResultValuesContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+`;
 
 export const PackContainer = styled.div<{ isPack: boolean }>`
   display: flex;
@@ -24,7 +29,7 @@ export const PackContainer = styled.div<{ isPack: boolean }>`
   height: 40px;
 `;
 
-const getColorForTestResult = (value: Result) => {
+const getColorForTestResult = (value: Result | undefined) => {
   switch (value) {
     case Result.Success:
       return colors.success;
@@ -36,7 +41,7 @@ const getColorForTestResult = (value: Result) => {
       return "#FF0";
   }
 };
-export const TestResultContainer = styled.div<{ value: number }>`
+export const TestResultContainer = styled.div<{ value: number | undefined }>`
   width: 25%;
   border: 1px solid ${({ value }) => getColorForTestResult(value)};
   height: 40px;

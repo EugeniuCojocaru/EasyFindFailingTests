@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import {
   createCompareResultsMap,
-  createResultsMap,
   createShow,
 } from "../../common/utils/fileParser";
 import { sortState } from "../../common/utils/mapSort";
@@ -33,17 +32,18 @@ export const ResultContentWrapper: React.FC<Props> = ({ array }) => {
   }, [state]);
 
   const getInfoForHeader = () => {
-    console.log("Getting info");
     const infoArray = array.map(({ os, label }) => ({ os, label }));
-    console.log({ infoArray, array });
     return infoArray;
   };
+
   return (
     <ResultsContainer>
-       
-        <Header info={getInfoForHeader()} />
+      <Header info={getInfoForHeader()} />
       ResultContentWrapper
-      <ResultContent resultMap={result || new Map()} />
+      <ResultContent
+        resultMap={result || new Map()}
+        noElements={state.length}
+      />
     </ResultsContainer>
   );
 };

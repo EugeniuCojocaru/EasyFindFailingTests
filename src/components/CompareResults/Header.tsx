@@ -10,7 +10,6 @@ type HeaderProps = {
 };
 
 export const Header = ({ info }: HeaderProps) => {
-  console.log({info});
   return (
     <HeaderContainer>
       {info.map(({ os, label }, index) => (

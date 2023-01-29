@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import {
-  ColumnContainer,
-  RowContainer,
-} from "../../components/BasicLayoutComponents";
-import { Result, ResultShowType } from "./CompareResultsPage.types";
+import React from "react";
+import { Result } from "./CompareResultsPage.types";
 import {
   Container,
   PackContainer,
   PackWrapperContainer,
   TestResultContainer,
+  TestResultValuesContainer,
 } from "./ResultContent.styles";
 type ResultContentProps = {
   resultMap: Map<string, Map<string, Array<Result>>>;
+  noElements: number;
 };
-export const ResultContent: React.FC<ResultContentProps> = ({ resultMap }) => {
-  console.log({ resultMap });
+export const ResultContent: React.FC<ResultContentProps> = ({
+  resultMap,
+  noElements,
+}) => {
   const array = [...resultMap];
 
   const getLabelForTestResut = (value: Result): string => {
@@ -26,8 +26,22 @@ export const ResultContent: React.FC<ResultContentProps> = ({ resultMap }) => {
       case Result.Skip:
         return "Skipped";
       default:
-        return "#FF0";
+        return "-";
     }
+  };
+  const getTestValues = (resultArray: Array<Result>, testName: string) => {
+    const result = [];
+    for (let i = 0; i < noElements; i++) {
+      result.push(
+        <TestResultContainer
+          key={`${testName}-${i}-${resultArray[i]}-result`}
+          value={resultArray[i]}
+        >
+          {getLabelForTestResut(resultArray[i])}
+        </TestResultContainer>
+      );
+    }
+    return result;
   };
   return (
     <Container>
@@ -44,16 +58,9 @@ export const ResultContent: React.FC<ResultContentProps> = ({ resultMap }) => {
                   <PackContainer isPack={false} key={`${key}-test`}>
                     {value[0]}
                   </PackContainer>
-                  <RowContainer>
-                    {value[1].map((value) => (
-                      <TestResultContainer
-                        key={`${key}-${value}-result`}
-                        value={value}
-                      >
-                        {getLabelForTestResut(value)}
-                      </TestResultContainer>
-                    ))}
-                  </RowContainer>
+                  <TestResultValuesContainer>
+                    {getTestValues(value[1], value[0])}
+                  </TestResultValuesContainer>
                 </>
               );
             })}

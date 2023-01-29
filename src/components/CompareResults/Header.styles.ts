@@ -14,7 +14,7 @@ export const HeaderContainer = styled.div`
 
 export const HeaderItem = styled.div<{ os: OS }>`
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   height: 90%;
   width: 25%;

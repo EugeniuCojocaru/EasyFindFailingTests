@@ -22,9 +22,15 @@ export const CompareResultsPage = () => {
 
   const handleAddFile = (event: any) => {
     const file = event.target.files[0];
-
     setInputState({ ...inputState, file: file || undefined });
   };
+
+  
+  const handleRemoveResults = (indexResults: number) => {
+    const values = state.filter((_, index) => index !== indexResults);
+    setState(values);
+  };
+
   return (
     <Layout>
       <PageContainer>
@@ -65,7 +71,10 @@ export const CompareResultsPage = () => {
             Add
           </Button>
         </InputArea>
-        <ResultContentWrapper array={state} />
+        <ResultContentWrapper
+          array={state}
+          handleRemoveEntry={handleRemoveResults}
+        />
       </PageContainer>
     </Layout>
   );

@@ -39,7 +39,6 @@ export const ResultContentWrapper: React.FC<Props> = ({ array }) => {
   return (
     <ResultsContainer>
       <Header info={getInfoForHeader()} />
-      ResultContentWrapper
       <ResultContent
         resultMap={result || new Map()}
         noElements={state.length}

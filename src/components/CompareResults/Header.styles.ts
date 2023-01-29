@@ -7,7 +7,6 @@ export const HeaderContainer = styled.div`
   align-items: center;
   gap: 4px;
   height: 100px;
-  border: 1px solid #000;
 `;
 export const HeaderItem = styled.div<{ os: OS }>`
   display: flex;

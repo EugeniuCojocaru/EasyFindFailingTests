@@ -6,6 +6,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 500px;
+  color: ${colors.testComparison.text};
 `;
 export const PackWrapperContainer = styled.div`
   display: flex;
@@ -24,26 +25,30 @@ export const PackContainer = styled.div<{ isPack: boolean }>`
   padding: 8px;
   ${({ isPack }) =>
     isPack && "justify-content: center;position: sticky;top: 0;"}
+  ${({ isPack }) =>
+    `background-color: ${
+      isPack ? colors.testComparison.pack : colors.testComparison.test
+    };`}  
   border-radius: 8px;
-  border: 1px solid #000;
   height: 40px;
 `;
 
 const getColorForTestResult = (value: Result | undefined) => {
   switch (value) {
     case Result.Success:
-      return colors.success;
+      return colors.testComparison.success;
     case Result.Fail:
-      return colors.failure;
+      return colors.testComparison.failure;
     case Result.Skip:
-      return colors.black;
+      return colors.testComparison.skipped;
     default:
-      return "#FF0";
+      return "#FFF";
   }
 };
 export const TestResultContainer = styled.div<{ value: number | undefined }>`
-  width: 25%;
+  width: 25%;  
   border: 1px solid ${({ value }) => getColorForTestResult(value)};
+  color: ${({ value }) => getColorForTestResult(value)};
   height: 40px;
   border-radius: 8px;
   display: flex;

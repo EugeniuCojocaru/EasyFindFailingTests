@@ -19,7 +19,7 @@ import { FilterOption, FilterOptionDefault, Package } from "../../common/types";
 
 export const GenerateStringPage = () => {
   const [state, setState] = useState<FilterOption>(FilterOptionDefault);
-  const { isFailed, isOnlyPacks, isSkipped } = state;
+  const { isFailed, isOnlyPacks, isSkipped, isValid } = state;
   const [file, setFile] = useState<File | undefined>();
   const [resultMap, setResultMap] = useState<Map<string, Package> | undefined>(
     undefined
@@ -70,6 +70,14 @@ export const GenerateStringPage = () => {
                 onChange={updateState}
               />
               <h4>Skipped tests</h4>
+            </OptionContainer>
+            <OptionContainer>
+              <Switch
+                checked={isValid}
+                name="isValid"
+                onChange={updateState}
+              />
+              <h4>Valid tests</h4>
             </OptionContainer>
             <h3>Upload the index.html</h3>
 

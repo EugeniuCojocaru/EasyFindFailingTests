@@ -13,9 +13,11 @@ export type FilterOption ={
   isOnlyPacks: boolean;
   isFailed: boolean;
   isSkipped: boolean;
+  isValid: boolean;
 }
 export const FilterOptionDefault: FilterOption = {
   isFailed: true,
   isOnlyPacks: false,
   isSkipped: false,
+  isValid: false
 };

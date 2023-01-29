@@ -4,8 +4,21 @@ export const colors = {
   shadow: "rgba(0, 0, 0, 0.08)",
   white: "#FFFFFF",
   black: "#000",
-  success: "#31CB00",
-  failure: "#FF1B1C",
+
+  testComparison: {
+    text: "#2C3333",
+    pack: "#E7F6F2",
+    test: "#A5C9CA",
+    result: "#395B64",
+    skipped: "#C8C6C6",
+    success: "#31CB00",
+    failure: "#FF1B1C",
+  },
+};
+
+export const gradients = {
+  apple: "linear-gradient(90deg, rgba(174,174,178) 0%, rgba(99,99,102) 100%);",
+  android: "linear-gradient(90deg, #2EB62C 0%, #57C84D 100%);",
 };
 
 export const classes = {

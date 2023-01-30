@@ -9,7 +9,7 @@ import {
 } from "./Navbar.styles";
 import { NavbarButton } from "./NavbarButton";
 import { PATHS } from "../../common/utils/paths";
-import logo from "../../common/resources/logo.png";
+import logo from "../../common/resources/logoJenu.png";
 export const Navbar = () => {
   const navigate = useNavigate();
   const handleNavigateTo = (route: string) => {

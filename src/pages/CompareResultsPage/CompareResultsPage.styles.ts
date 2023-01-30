@@ -2,7 +2,6 @@ import styled from "styled-components/macro";
 import { colors } from "./../../common/styles/styles";
 import {
   ColumnContainer,
-  RowContainer,
 } from "../../components/BasicLayoutComponents";
 
 export const PageContainer = styled.div`
@@ -21,4 +20,5 @@ export const InputArea = styled.div`
   flex-direction: row;
   gap: 16px;
   align-items: baseline;
+  margin-bottom: 24px;
 `;

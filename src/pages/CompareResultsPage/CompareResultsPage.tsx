@@ -25,7 +25,6 @@ export const CompareResultsPage = () => {
     setInputState({ ...inputState, file: file || undefined });
   };
 
-  
   const handleRemoveResults = (indexResults: number) => {
     const values = state.filter((_, index) => index !== indexResults);
     setState(values);
@@ -37,8 +36,21 @@ export const CompareResultsPage = () => {
         <InputArea>
           <IconButton component="label" onChange={(e: any) => handleAddFile(e)}>
             <input hidden accept=".html" type="file" />
-            <UploadFileIcon fill={file ? colors.navigator : undefined} />
+            <UploadFileIcon
+              sx={{
+                color: file ? colors.testComparison.success : undefined,
+              }}
+            />
           </IconButton>
+
+          <TextField
+            label="Label"
+            value={label}
+            variant="standard"
+            onChange={(e) =>
+              setInputState({ ...inputState, label: e.target.value })
+            }
+          />
           <Stack direction="row" spacing={1} alignItems="center">
             <Typography>Android</Typography>
             <Switch
@@ -53,20 +65,14 @@ export const CompareResultsPage = () => {
             />
             <Typography>IOS</Typography>
           </Stack>
-          <TextField
-            label="Label"
-            value={label}
-            variant="standard"
-            onChange={(e) =>
-              setInputState({ ...inputState, label: e.target.value })
-            }
-          />
           <Button
             onClick={() => {
               if (file && label && state.length < 4) {
                 setState([...state, inputState]);
+                setInputState(ResultTypeDefault);
               }
             }}
+            disabled={!file || !label}
           >
             Add
           </Button>

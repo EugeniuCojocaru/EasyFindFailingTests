@@ -4,7 +4,6 @@ import {
   ResultShowType,
   ResultType,
 } from "../../pages/CompareResultsPage/CompareResultsPage.types";
-import { fileURLToPath } from "url";
 
 const failTestsTemplate = " [x] FAIL";
 const skipTestsTemplate = " [-] SKIPPED";

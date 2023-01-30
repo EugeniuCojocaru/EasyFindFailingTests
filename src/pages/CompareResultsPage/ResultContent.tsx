@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import DifferenceIcon from "@mui/icons-material/Difference";
-import { Result } from "./CompareResultsPage.types";
+import { Result, ResultMeta, ResultWithMeta } from "./CompareResultsPage.types";
 import {
   Container,
   FilterContainer,
@@ -13,7 +13,7 @@ import {
 import { IconButton, Tooltip } from "@mui/material";
 import { colors } from "../../common/styles/styles";
 type ResultContentProps = {
-  resultMap: Map<string, Map<string, Array<Result>>>;
+  resultMap: Map<string, Map<string, ResultWithMeta>>;
   noElements: number;
 };
 export const ResultContent: React.FC<ResultContentProps> = ({
@@ -49,6 +49,12 @@ export const ResultContent: React.FC<ResultContentProps> = ({
     }
     return result;
   };
+  const isDiff = (meta: ResultMeta): boolean => {
+    if (meta.success !== noElements && meta.fail === 0 && meta.skip === 0)
+      return false;
+    if (meta.success === noElements) return false;
+    return true;
+  };
   return (
     <>
       <Container>
@@ -60,16 +66,31 @@ export const ResultContent: React.FC<ResultContentProps> = ({
                 {value[0]}
               </PackContainer>
               {array2.map((value, key) => {
-                return (
-                  <>
-                    <PackContainer isPack={false} key={`${key}-test`}>
-                      {value[0]}
-                    </PackContainer>
-                    <TestResultValuesContainer>
-                      {getTestValues(value[1], value[0])}
-                    </TestResultValuesContainer>
-                  </>
-                );
+                if (onlyDiffs) {
+                  if (isDiff(value[1].meta)) {
+                    return (
+                      <>
+                        <PackContainer isPack={false} key={`${key}-test`}>
+                          {value[0]}
+                        </PackContainer>
+                        <TestResultValuesContainer>
+                          {getTestValues(value[1].values, value[0])}
+                        </TestResultValuesContainer>
+                      </>
+                    );
+                  }
+                } else {
+                  return (
+                    <>
+                      <PackContainer isPack={false} key={`${key}-test`}>
+                        {value[0]}
+                      </PackContainer>
+                      <TestResultValuesContainer>
+                        {getTestValues(value[1].values, value[0])}
+                      </TestResultValuesContainer>
+                    </>
+                  );
+                }
               })}
             </PackWrapperContainer>
           );

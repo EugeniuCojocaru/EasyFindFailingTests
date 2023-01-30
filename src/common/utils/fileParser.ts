@@ -1,8 +1,10 @@
 import { FilterOption, Package, PackageDefault } from "../types";
 import {
   Result,
+  ResultMetaDefault,
   ResultShowType,
   ResultType,
+  ResultWithMeta,
 } from "../../pages/CompareResultsPage/CompareResultsPage.types";
 
 const failTestsTemplate = " [x] FAIL";
@@ -129,7 +131,9 @@ export const getStringWithFilters = (
   return result.substring(1, result.length);
 };
 
-export const createShow = (array: Array<ResultShowType | undefined>): Map<string, Map<string, Array<Result>>> => {
+export const createShow = (
+  array: Array<ResultShowType | undefined>
+): Map<string, Map<string, Array<Result>>> => {
   const a = new Map<string, Map<string, Array<Result>>>();
   array.forEach((item, index) => {
     if (item) {
@@ -196,5 +200,92 @@ export const createShow = (array: Array<ResultShowType | undefined>): Map<string
   return a;
 };
 
+export const createShow2 = (
+  array: Array<ResultShowType | undefined>
+): Map<string, Map<string, ResultWithMeta>> => {
+  const a = new Map<string, Map<string, ResultWithMeta>>();
+  array.forEach((item, index) => {
+    if (item) {
+      const { resultMap } = item;
+      if (resultMap) {
+        resultMap.forEach((value, key) => {
+          const { success, fail, skip } = value;
+          const pack = a.get(key);
+          if (pack) {
+            success?.forEach((test) => {
+              const packTest = pack.get(test);
+              if (packTest) {
+                packTest.values[index] = Result.Success;
+                packTest.meta.success++;
+              } else {
+                const arr = new Array<Result>();
+                arr[index] = Result.Success;
+                pack.set(test, {
+                  values: arr,
+                  meta: { ...ResultMetaDefault, success: 1 },
+                });
+              }
+            });
+            fail?.forEach((test) => {
+              const packTest = pack.get(test);
+              if (packTest) {
+                packTest.values[index] = Result.Fail;
+                packTest.meta.fail++;
+              } else {
+                const arr = new Array<Result>();
+                arr[index] = Result.Fail;
+                pack.set(test, {
+                  values: arr,
+                  meta: { ...ResultMetaDefault, fail: 1 },
+                });
+              }
+            });
+            skip?.forEach((test) => {
+              const packTest = pack.get(test);
+              if (packTest) {
+                packTest.values[index] = Result.Skip;
+                packTest.meta.skip++;
+              } else {
+                const arr = new Array<Result>();
+                arr[index] = Result.Skip;
+                pack.set(test, {
+                  values: arr,
+                  meta: { ...ResultMetaDefault, skip: 1 },
+                });
+              }
+            });
+          } else {
+            const pack2 = new Map<string, ResultWithMeta>();
+            success?.forEach((test) => {
+              const arr = new Array<Result>();
+              arr[index] = Result.Success;
+              pack2.set(test, {
+                values: arr,
+                meta: { ...ResultMetaDefault, success: 1 },
+              });
+            });
+            fail?.forEach((test) => {
+              const arr = new Array<Result>();
+              arr[index] = Result.Fail;
+              pack2.set(test, {
+                values: arr,
+                meta: { ...ResultMetaDefault, fail: 1 },
+              });
+            });
+            skip?.forEach((test) => {
+              const arr = new Array<Result>();
+              arr[index] = Result.Skip;
+              pack2.set(test, {
+                values: arr,
+                meta: { ...ResultMetaDefault, skip: 1 },
+              });
+            });
 
-
+            a.set(key, pack2);
+          }
+        });
+      }
+    }
+  });
+  return a;
+};

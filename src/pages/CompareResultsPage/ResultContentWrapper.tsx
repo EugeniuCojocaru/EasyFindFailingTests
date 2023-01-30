@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import {
   createCompareResultsMap,
-  createShow,
+  createShow2,
 } from "../../common/utils/fileParser";
 import { sortState } from "../../common/utils/mapSort";
 import { Header } from "../../components/CompareResults";
-import { Result, ResultShowType, ResultType } from "./CompareResultsPage.types";
+import { ResultShowType, ResultType, ResultWithMeta } from "./CompareResultsPage.types";
 import { ResultContent } from "./ResultContent";
 import { ResultsContainer } from "./ResultContentWrapper.styles";
 export interface Props {
@@ -20,7 +20,7 @@ export const ResultContentWrapper: React.FC<Props> = ({
   const [state, setState] = useState<Array<ResultShowType | undefined>>([]);
   const [removedItem, setRemovedItem] = useState<number | undefined>(undefined);
   const [result, setResult] =
-    useState<Map<string, Map<string, Array<Result>>>>();
+    useState<Map<string, Map<string, ResultWithMeta>>>();
 
   const updateState = (value: ResultShowType | undefined) => {
     setState([...state, value]);
@@ -39,7 +39,7 @@ export const ResultContentWrapper: React.FC<Props> = ({
   }, [array]);
 
   useEffect(() => {
-    setResult(sortState(createShow(state)));
+    setResult(sortState(createShow2(state)));
   }, [state]);
 
   const getInfoForHeader = () => {

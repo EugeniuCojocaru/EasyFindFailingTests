@@ -1,4 +1,4 @@
-import { Result } from "../../pages/CompareResultsPage/CompareResultsPage.types";
+import { Result, ResultWithMeta } from "../../pages/CompareResultsPage/CompareResultsPage.types";
 export enum SortType {
   Ascending,
   Descending,
@@ -27,7 +27,7 @@ const sortMap = <T>(map: Map<string, T>): Map<string, T> => {
 };
 
 export const sortState = (
-  map: Map<string, Map<string, Array<Result>>> | undefined
+  map: Map<string, Map<string, ResultWithMeta>> | undefined
 ) => {
   if (map) {
     map.forEach((value, key) => {

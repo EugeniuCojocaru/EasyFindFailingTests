@@ -1,10 +1,11 @@
-import { FilterOption, Package, PackageDefault } from "../types";
+import { FilterOption, Package, PACKAGE_DEFAULT } from "../types";
 import {
   Result,
+  ResultMetaDefault,
   ResultShowType,
   ResultType,
+  ResultWithMeta,
 } from "../../pages/CompareResultsPage/CompareResultsPage.types";
-import { fileURLToPath } from "url";
 
 const failTestsTemplate = " [x] FAIL";
 const skipTestsTemplate = " [-] SKIPPED";
@@ -57,7 +58,7 @@ const parseFile = (
 
       let packageEntry = resultsMap.get(packageName);
       if (!packageEntry) {
-        resultsMap.set(packageName, PackageDefault);
+        resultsMap.set(packageName, PACKAGE_DEFAULT);
       }
 
       for (let testIndex = 1; testIndex < tests.length; testIndex++) {
@@ -130,8 +131,10 @@ export const getStringWithFilters = (
   return result.substring(1, result.length);
 };
 
-export const createShow = (array: Array<ResultShowType | undefined>): Map<string, Map<string, Array<Result>>> => {
-  const a = new Map<string, Map<string, Array<Result>>>();
+export const createShow2 = (
+  array: Array<ResultShowType | undefined>
+): Map<string, Map<string, ResultWithMeta>> => {
+  const a = new Map<string, Map<string, ResultWithMeta>>();
   array.forEach((item, index) => {
     if (item) {
       const { resultMap } = item;
@@ -143,49 +146,70 @@ export const createShow = (array: Array<ResultShowType | undefined>): Map<string
             success?.forEach((test) => {
               const packTest = pack.get(test);
               if (packTest) {
-                packTest[index] = Result.Success;
+                packTest.values[index] = Result.Success;
+                packTest.meta.success++;
               } else {
                 const arr = new Array<Result>();
                 arr[index] = Result.Success;
-                pack.set(test, arr);
+                pack.set(test, {
+                  values: arr,
+                  meta: { ...ResultMetaDefault, success: 1 },
+                });
               }
             });
             fail?.forEach((test) => {
               const packTest = pack.get(test);
               if (packTest) {
-                packTest[index] = Result.Fail;
+                packTest.values[index] = Result.Fail;
+                packTest.meta.fail++;
               } else {
                 const arr = new Array<Result>();
                 arr[index] = Result.Fail;
-                pack.set(test, arr);
+                pack.set(test, {
+                  values: arr,
+                  meta: { ...ResultMetaDefault, fail: 1 },
+                });
               }
             });
             skip?.forEach((test) => {
               const packTest = pack.get(test);
               if (packTest) {
-                packTest[index] = Result.Skip;
+                packTest.values[index] = Result.Skip;
+                packTest.meta.skip++;
               } else {
                 const arr = new Array<Result>();
                 arr[index] = Result.Skip;
-                pack.set(test, arr);
+                pack.set(test, {
+                  values: arr,
+                  meta: { ...ResultMetaDefault, skip: 1 },
+                });
               }
             });
           } else {
-            const pack2 = new Map<string, Array<Result>>();
+            const pack2 = new Map<string, ResultWithMeta>();
             success?.forEach((test) => {
               const arr = new Array<Result>();
               arr[index] = Result.Success;
-              pack2.set(test, arr);
+              pack2.set(test, {
+                values: arr,
+                meta: { ...ResultMetaDefault, success: 1 },
+              });
             });
             fail?.forEach((test) => {
               const arr = new Array<Result>();
               arr[index] = Result.Fail;
-              pack2.set(test, arr);
+              pack2.set(test, {
+                values: arr,
+                meta: { ...ResultMetaDefault, fail: 1 },
+              });
             });
             skip?.forEach((test) => {
               const arr = new Array<Result>();
               arr[index] = Result.Skip;
-              pack2.set(test, arr);
+              pack2.set(test, {
+                values: arr,
+                meta: { ...ResultMetaDefault, skip: 1 },
+              });
             });
 
             a.set(key, pack2);
@@ -196,6 +220,3 @@ export const createShow = (array: Array<ResultShowType | undefined>): Map<string
   });
   return a;
 };
-
-
-

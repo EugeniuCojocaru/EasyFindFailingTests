@@ -8,6 +8,7 @@ export const Container = styled.div`
   height: 500px;
   color: ${colors.testComparison.text};
   height: auto;
+  gap: 4px;
 `;
 export const PackWrapperContainer = styled.div`
   display: flex;
@@ -47,7 +48,7 @@ const getColorForTestResult = (value: Result | undefined) => {
   }
 };
 export const TestResultContainer = styled.div<{ value: number | undefined }>`
-  width: 25%;  
+  flex: 1;
   border: 1px solid ${({ value }) => getColorForTestResult(value)};
   color: ${({ value }) => getColorForTestResult(value)};
   height: 40px;
@@ -55,4 +56,12 @@ export const TestResultContainer = styled.div<{ value: number | undefined }>`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const FilterContainer = styled.div`
+  position: fixed;
+  bottom: 0;
+  right: 10px;
+  width: auto;
+  height: auto;
 `;

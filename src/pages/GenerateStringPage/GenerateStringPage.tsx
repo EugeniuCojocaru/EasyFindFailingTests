@@ -15,10 +15,10 @@ import {
   createResultsMap,
   getStringWithFilters,
 } from "../../common/utils/fileParser";
-import { FilterOption, FilterOptionDefault, Package } from "../../common/types";
+import { FilterOption, FILTER_OPTIONS_DEFAULT, Package } from "../../common/types";
 
 export const GenerateStringPage = () => {
-  const [state, setState] = useState<FilterOption>(FilterOptionDefault);
+  const [state, setState] = useState<FilterOption>(FILTER_OPTIONS_DEFAULT);
   const { isFailed, isOnlyPacks, isSkipped, isValid } = state;
   const [file, setFile] = useState<File | undefined>();
   const [resultMap, setResultMap] = useState<Map<string, Package> | undefined>(

@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/EasyFindFailingTests/static/css/main.bfda055a.css",
-    "main.js": "/EasyFindFailingTests/static/js/main.d9b57bc3.js",
+    "main.js": "/EasyFindFailingTests/static/js/main.03400b98.js",
     "static/js/787.28cb0dcd.chunk.js": "/EasyFindFailingTests/static/js/787.28cb0dcd.chunk.js",
-    "static/media/logo.png": "/EasyFindFailingTests/static/media/logo.867970f1c538003f486e.png",
+    "static/media/logoJenu.png": "/EasyFindFailingTests/static/media/logoJenu.034a668846a71f701eb2.png",
     "index.html": "/EasyFindFailingTests/index.html",
     "main.bfda055a.css.map": "/EasyFindFailingTests/static/css/main.bfda055a.css.map",
-    "main.d9b57bc3.js.map": "/EasyFindFailingTests/static/js/main.d9b57bc3.js.map",
+    "main.03400b98.js.map": "/EasyFindFailingTests/static/js/main.03400b98.js.map",
     "787.28cb0dcd.chunk.js.map": "/EasyFindFailingTests/static/js/787.28cb0dcd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.bfda055a.css",
-    "static/js/main.d9b57bc3.js"
+    "static/js/main.03400b98.js"
   ]
 }

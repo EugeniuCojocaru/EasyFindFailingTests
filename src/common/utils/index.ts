@@ -1,1 +1,2 @@
-export * from "./paths";
+export * from "./fileParser";
+export * from "./mapSort";

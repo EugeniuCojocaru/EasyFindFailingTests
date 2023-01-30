@@ -3,11 +3,6 @@ export type Package = {
   fail?: Array<string>;
   skip?: Array<string>;
 };
-export const PackageDefault: Package = {
-  success: [],
-  fail: [],
-  skip: [],
-};
 
 export type FilterOption ={
   isOnlyPacks: boolean;
@@ -15,7 +10,14 @@ export type FilterOption ={
   isSkipped: boolean;
   isValid: boolean;
 }
-export const FilterOptionDefault: FilterOption = {
+
+export const PACKAGE_DEFAULT: Package = {
+  success: [],
+  fail: [],
+  skip: [],
+};
+
+export const FILTER_OPTIONS_DEFAULT: FilterOption = {
   isFailed: true,
   isOnlyPacks: false,
   isSkipped: false,

@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { CompareResultsPage } from "../../pages/CompareResultsPage";
-import { PATHS } from "../../common/utils";
+import { PATHS } from "../../common/constants";
 import { DashboardPage } from "../../pages/dashboard/DashboardPage";
 import { GenerateStringPage } from "../../pages/GenerateStringPage";
 

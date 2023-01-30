@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import {
   createCompareResultsMap,
-  createShow,
   createShow2,
 } from "../../common/utils/fileParser";
 import { sortState } from "../../common/utils/mapSort";
 import { Header } from "../../components/CompareResults";
-import { Result, ResultShowType, ResultType, ResultWithMeta } from "./CompareResultsPage.types";
+import { ResultShowType, ResultType, ResultWithMeta } from "./CompareResultsPage.types";
 import { ResultContent } from "./ResultContent";
 import { ResultsContainer } from "./ResultContentWrapper.styles";
 export interface Props {

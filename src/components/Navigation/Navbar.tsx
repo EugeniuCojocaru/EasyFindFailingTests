@@ -8,7 +8,7 @@ import {
   NavbarContainer,
 } from "./Navbar.styles";
 import { NavbarButton } from "./NavbarButton";
-import { PATHS } from "../../common/utils/paths";
+import { PATHS } from "../../common/constants/paths";
 import logo from "../../common/resources/logoJenu.png";
 export const Navbar = () => {
   const navigate = useNavigate();

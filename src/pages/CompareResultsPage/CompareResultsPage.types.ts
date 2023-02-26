@@ -13,12 +13,14 @@ export enum Result {
   Success,
   Fail,
   Skip,
+  Diff,
   NaN,
 }
 export interface ResultMeta {
   success: number;
   fail: number;
   skip: number;
+  diff: number;
 }
 export interface ResultWithMeta {
   values: Array<Result>;
@@ -40,4 +42,5 @@ export const ResultMetaDefault: ResultMeta = {
   success: 0,
   fail: 0,
   skip: 0,
+  diff: 0,
 };

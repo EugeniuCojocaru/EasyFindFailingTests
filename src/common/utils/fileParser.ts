@@ -9,6 +9,7 @@ import {
 
 const failTestsTemplate = " [x] FAIL";
 const skipTestsTemplate = " [-] SKIPPED";
+const diffTestsTemplate = " [?] DIFF";
 const testPackageTemplate = "CLASS: ";
 const testEndTemplate = "<";
 const testStartTemplate = "--> ";
@@ -85,10 +86,20 @@ const parseFile = (
               ],
             });
           } else {
-            resultsMap.set(packageName, {
-              ...packageEntry,
-              success: [...(packageEntry?.success || []), testName.trim()],
-            });
+            if (testName.includes(diffTestsTemplate)) {
+              resultsMap.set(packageName, {
+                ...packageEntry,
+                diff: [
+                  ...(packageEntry?.skip || []),
+                  testName.split(diffTestsTemplate)[0],
+                ],
+              });
+            } else {
+              resultsMap.set(packageName, {
+                ...packageEntry,
+                success: [...(packageEntry?.success || []), testName.trim()],
+              });
+            }
           }
         }
       }
@@ -140,7 +151,7 @@ export const createShow2 = (
       const { resultMap } = item;
       if (resultMap) {
         resultMap.forEach((value, key) => {
-          const { success, fail, skip } = value;
+          const { success, fail, skip, diff } = value;
           const pack = a.get(key);
           if (pack) {
             success?.forEach((test) => {
@@ -185,6 +196,20 @@ export const createShow2 = (
                 });
               }
             });
+            diff?.forEach((test) => {
+              const packTest = pack.get(test);
+              if (packTest) {
+                packTest.values[index] = Result.Diff;
+                packTest.meta.diff++;
+              } else {
+                const arr = new Array<Result>();
+                arr[index] = Result.Diff;
+                pack.set(test, {
+                  values: arr,
+                  meta: { ...ResultMetaDefault, diff: 1 },
+                });
+              }
+            });
           } else {
             const pack2 = new Map<string, ResultWithMeta>();
             success?.forEach((test) => {
@@ -209,6 +234,14 @@ export const createShow2 = (
               pack2.set(test, {
                 values: arr,
                 meta: { ...ResultMetaDefault, skip: 1 },
+              });
+            });
+            diff?.forEach((test) => {
+              const arr = new Array<Result>();
+              arr[index] = Result.Diff;
+              pack2.set(test, {
+                values: arr,
+                meta: { ...ResultMetaDefault, diff: 1 },
               });
             });
 

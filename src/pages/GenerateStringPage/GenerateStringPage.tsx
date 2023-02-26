@@ -15,16 +15,22 @@ import {
   createResultsMap,
   getStringWithFilters,
 } from "../../common/utils/fileParser";
-import { FilterOption, FILTER_OPTIONS_DEFAULT, Package } from "../../common/types";
+import {
+  FilterOption,
+  FILTER_OPTIONS_DEFAULT,
+  Package,
+} from "../../common/types";
+import { SelectPackNames } from "./SelectPackNames/SelectPackNames";
 
 export const GenerateStringPage = () => {
   const [state, setState] = useState<FilterOption>(FILTER_OPTIONS_DEFAULT);
-  const { isFailed, isOnlyPacks, isSkipped, isValid } = state;
+  const { isFailed, isOnlyPacks, isSkipped, isValid, isDiff } = state;
   const [file, setFile] = useState<File | undefined>();
   const [resultMap, setResultMap] = useState<Map<string, Package> | undefined>(
     undefined
   );
   const [resultString, setResultString] = useState<string>("");
+
   const updateState = (e: any) => {
     setState({ ...state, [e.target.name]: e.target.checked });
   };
@@ -32,6 +38,7 @@ export const GenerateStringPage = () => {
   useEffect(() => {
     createResultsMap(file, setResultMap);
   }, [file, setFile]);
+
   useEffect(() => {
     setResultString(getStringWithFilters(resultMap, state));
   }, [state, resultMap]);
@@ -72,18 +79,24 @@ export const GenerateStringPage = () => {
               <h4>Skipped tests</h4>
             </OptionContainer>
             <OptionContainer>
-              <Switch
-                checked={isValid}
-                name="isValid"
-                onChange={updateState}
-              />
+              <Switch checked={isValid} name="isValid" onChange={updateState} />
               <h4>Valid tests</h4>
             </OptionContainer>
+            <OptionContainer>
+              <Switch checked={isDiff} name="isDiff" onChange={updateState} />
+              <h4>Diff tests</h4>
+            </OptionContainer>
+            {resultMap && (
+            <OptionsContainer>
+              <SelectPackNames resultMap={resultMap} />
+            </OptionsContainer>
+          )}
             <h3>Upload the index.html</h3>
 
             <DragAndDropInput handleDragAndDrop={handleFile} />
           </OptionsContainer>
 
+         
           <ResultContainer>
             <h3>Result</h3>
             <ResultTextContainer>{resultString}</ResultTextContainer>

@@ -117,7 +117,8 @@ const createStringOutOfArray = (
 
 export const getStringWithFilters = (
   resultsMap: Map<string, Package> | undefined,
-  filters: FilterOption
+  filters: FilterOption,
+  selectedPacks: Array<string>
 ): string => {
   let result = "";
   if (resultsMap) {
@@ -126,16 +127,21 @@ export const getStringWithFilters = (
         if (
           (filters.isFailed && value.fail && value.fail.length > 0) ||
           (filters.isSkipped && value.skip && value.skip.length > 0) ||
+          (filters.isDiff && value.diff && value.diff.length > 0) ||
           (filters.isValid && value.success && value.success.length > 0)
         )
           result = `${result}+${key}`;
       } else {
-        if (filters.isFailed && value.fail && value.fail.length > 0)
-          result = createStringOutOfArray(value.fail, result);
-        if (filters.isSkipped && value.skip && value.skip.length > 0)
-          result = createStringOutOfArray(value.skip, result);
-        if (filters.isValid && value.success && value.success.length > 0)
-          result = createStringOutOfArray(value.success, result);
+        if (selectedPacks.length === 0 || selectedPacks.includes(key)) {
+          if (filters.isFailed && value.fail && value.fail.length > 0)
+            result = createStringOutOfArray(value.fail, result);
+          if (filters.isSkipped && value.skip && value.skip.length > 0)
+            result = createStringOutOfArray(value.skip, result);
+          if (filters.isDiff && value.diff && value.diff.length > 0)
+            result = createStringOutOfArray(value.diff, result);
+          if (filters.isValid && value.success && value.success.length > 0)
+            result = createStringOutOfArray(value.success, result);
+        }
       }
     });
   }

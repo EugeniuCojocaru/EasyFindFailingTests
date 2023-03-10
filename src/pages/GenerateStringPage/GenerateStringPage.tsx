@@ -20,7 +20,12 @@ import {
   FILTER_OPTIONS_DEFAULT,
   Package,
 } from "../../common/types";
-import { SelectPackNames } from "./SelectPackNames/SelectPackNames";
+import {
+  mapSelectTypeToArray,
+  mapToLabel,
+  SelectPackNames,
+  SelectType,
+} from "./SelectPackNames/SelectPackNames";
 
 export const GenerateStringPage = () => {
   const [state, setState] = useState<FilterOption>(FILTER_OPTIONS_DEFAULT);
@@ -30,6 +35,7 @@ export const GenerateStringPage = () => {
     undefined
   );
   const [resultString, setResultString] = useState<string>("");
+  const [selectedPacks, setSelectedPacks] = useState<Array<SelectType>>([]);
 
   const updateState = (e: any) => {
     setState({ ...state, [e.target.name]: e.target.checked });
@@ -40,8 +46,8 @@ export const GenerateStringPage = () => {
   }, [file, setFile]);
 
   useEffect(() => {
-    setResultString(getStringWithFilters(resultMap, state));
-  }, [state, resultMap]);
+    setResultString(getStringWithFilters(resultMap, state, mapSelectTypeToArray(selectedPacks)));
+  }, [state, resultMap, selectedPacks]);
 
   const handleFile = (file: File | undefined) => {
     setFile(file);
@@ -80,23 +86,28 @@ export const GenerateStringPage = () => {
             </OptionContainer>
             <OptionContainer>
               <Switch checked={isValid} name="isValid" onChange={updateState} />
-              <h4>Valid tests</h4>
+              <h4>Success tests</h4>
             </OptionContainer>
             <OptionContainer>
               <Switch checked={isDiff} name="isDiff" onChange={updateState} />
               <h4>Diff tests</h4>
             </OptionContainer>
-            {resultMap && (
-            <OptionsContainer>
-              <SelectPackNames resultMap={resultMap} />
-            </OptionsContainer>
-          )}
+            {resultMap && !isOnlyPacks && (
+              <>
+                <h3>Pick packs</h3>
+                <OptionsContainer>
+                  <SelectPackNames
+                    data={mapToLabel(resultMap)}
+                    setValue={setSelectedPacks}
+                  />
+                </OptionsContainer>
+              </>
+            )}
             <h3>Upload the index.html</h3>
 
             <DragAndDropInput handleDragAndDrop={handleFile} />
           </OptionsContainer>
 
-         
           <ResultContainer>
             <h3>Result</h3>
             <ResultTextContainer>{resultString}</ResultTextContainer>

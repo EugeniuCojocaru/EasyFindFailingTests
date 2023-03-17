@@ -31,6 +31,8 @@ export const ResultContent: React.FC<ResultContentProps> = ({
         return "Failure";
       case Result.Skip:
         return "Skipped";
+      case Result.Diff:
+        return "Difference";
       default:
         return "-";
     }
@@ -50,7 +52,12 @@ export const ResultContent: React.FC<ResultContentProps> = ({
     return result;
   };
   const isDiff = (meta: ResultMeta): boolean => {
-    if (meta.success !== noElements && meta.fail === 0 && meta.skip === 0)
+    if (
+      meta.success !== noElements &&
+      meta.fail === 0 &&
+      meta.skip === 0 &&
+      meta.diff === 0
+    )
       return false;
     if (meta.success === noElements) return false;
     return true;

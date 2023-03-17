@@ -43,6 +43,8 @@ const getColorForTestResult = (value: Result | undefined) => {
       return colors.testComparison.failure;
     case Result.Skip:
       return colors.testComparison.skipped;
+    case Result.Diff:
+      return colors.testComparison.difference;
     default:
       return "#FFF";
   }

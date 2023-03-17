@@ -13,6 +13,7 @@ export const colors = {
     skipped: "#C8C6C6",
     success: "#31CB00",
     failure: "#FF1B1C",
+    difference: "#FFAC1C",
   },
 };
 
